@@ -68,6 +68,17 @@
                         android:textSize="14sp"
                         tools:text="Bugun 12:00" />
 
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonOpenSettings"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/settings_title"
+                        app:icon="@android:drawable/ic_menu_preferences"
+                        app:iconPadding="8dp"
+                        app:iconGravity="textStart" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

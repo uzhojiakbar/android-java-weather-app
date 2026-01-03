@@ -128,6 +128,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.buttonOpen72Hours.setOnClickListener {
             open72HourScreen()
         }
+        binding.buttonOpenSettings.setOnClickListener { openSettings() }
 
         setupMapFragment()
     }
