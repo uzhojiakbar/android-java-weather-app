@@ -29,6 +29,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -131,6 +132,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setupMapFragment() {
+        try {
+            MapsInitializer.initialize(applicationContext, MapsInitializer.Renderer.LATEST) {}
+        } catch (e: Exception) {
+            binding.textMapStatus.visibility = View.VISIBLE
+            binding.textMapStatus.text = "Google Maps yuklashda xato: ${e.localizedMessage}"
+            binding.buttonRetryMap.visibility = View.VISIBLE
+            return
+        }
         val fragment = (supportFragmentManager.findFragmentById(R.id.mapContainer) as? SupportMapFragment)
             ?: SupportMapFragment.newInstance().also {
                 supportFragmentManager.beginTransaction()
@@ -138,6 +147,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     .commit()
             }
         fragment.getMapAsync(this)
+        binding.buttonRetryMap.setOnClickListener {
+            setupMapFragment()
+        }
     }
 
     private fun checkPermissionAndLoad() {

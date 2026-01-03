@@ -21,6 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="70dp"
+        android:paddingBottom="16dp"
+        android:animateLayoutChanges="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -36,9 +38,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="@android:color/transparent"
+                app:cardBackgroundColor="#99FFFFFF"
                 app:cardCornerRadius="20dp"
-                app:strokeColor="#99FFFFFF"
+                app:cardElevation="8dp"
+                app:strokeColor="#1E3D74"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -191,6 +194,7 @@
                 android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="@color/card_background"
                 app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
                 app:strokeColor="#E0E0E0">
 
                 <LinearLayout
@@ -230,6 +234,7 @@
                         android:clipToPadding="false"
                         android:paddingEnd="8dp"
                         android:paddingStart="8dp"
+                        android:layoutAnimation="@anim/layout_fade_in"
                         tools:listitem="@layout/item_hourly" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -240,6 +245,7 @@
                 android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="@color/card_background"
                 app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
                 app:strokeColor="#E0E0E0">
 
                 <LinearLayout
@@ -262,6 +268,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:nestedScrollingEnabled="false"
+                        android:layoutAnimation="@anim/layout_slide_in"
                         tools:listitem="@layout/item_daily" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -271,6 +278,7 @@
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/card_background"
                 app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
                 app:strokeColor="#E0E0E0">
 
                 <LinearLayout
@@ -290,8 +298,26 @@
                     <FrameLayout
                         android:id="@+id/mapContainer"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="220dp"
                         android:layout_marginTop="8dp" />
+
+                    <TextView
+                        android:id="@+id/textMapStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textColor="#0A1F44"
+                        android:textSize="14sp"
+                        android:visibility="gone"
+                        tools:text="Map load error" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonRetryMap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/map_retry"
+                        android:visibility="gone" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

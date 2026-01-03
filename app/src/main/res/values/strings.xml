@@ -42,4 +42,6 @@
     <string name="action_refresh">Yangilash</string>
     <string name="settings_title">Sozlamalar</string>
     <string name="save">Saqlash</string>
+    <string name="map_retry">Mapni qayta yuklash</string>
+    <string name="map_error">Google Maps yuklashda xato</string>
 </resources>
