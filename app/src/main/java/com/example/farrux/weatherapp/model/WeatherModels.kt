@@ -69,3 +69,44 @@ data class WeatherCondition(
     val description: String = "",
     val icon: String = ""
 ) : Parcelable
+
+// API models for /weather and /forecast
+data class CurrentWeatherApiResponse(
+    val coord: Coord = Coord(),
+    val weather: List<WeatherCondition> = emptyList(),
+    val main: MainInfo = MainInfo(),
+    val wind: WindInfo? = null,
+    val visibility: Int = 10000,
+    val dt: Long = 0L,
+    val name: String? = null
+)
+
+data class ForecastApiResponse(
+    val list: List<ForecastItem> = emptyList()
+)
+
+data class ForecastItem(
+    val dt: Long = 0L,
+    val main: MainInfo = MainInfo(),
+    val weather: List<WeatherCondition> = emptyList(),
+    val wind: WindInfo? = null,
+    val visibility: Int = 10000,
+    val pop: Double = 0.0
+)
+
+data class Coord(val lat: Double = 0.0, val lon: Double = 0.0)
+data class MainInfo(
+    val temp: Double = 0.0,
+    val feels_like: Double = 0.0,
+    val pressure: Int = 0,
+    val humidity: Int = 0
+)
+
+data class WindInfo(val speed: Double = 0.0)
+
+data class GeoLocation(
+    val name: String? = null,
+    val lat: Double = 0.0,
+    val lon: Double = 0.0,
+    val country: String? = null
+)

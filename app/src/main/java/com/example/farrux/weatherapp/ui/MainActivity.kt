@@ -85,6 +85,24 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = getString(R.string.app_name)
+        binding.toolbar.inflateMenu(R.menu.menu_main)
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_refresh -> {
+                    checkPermissionAndLoad()
+                    true
+                }
+                R.id.action_search -> {
+                    showCitySearchDialog()
+                    true
+                }
+                R.id.action_settings -> {
+                    openSettings()
+                    true
+                }
+                else -> false
+            }
+        }
 
         binding.recyclerHourly.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -132,6 +150,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 )
             )
+            // fall back to last saved location while waiting
+            val last = preferences.getLastLocation()
+            fetchWeather(last.first, last.second, last.third)
         }
     }
 
@@ -170,17 +191,25 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun fetchWeather(lat: Double, lon: Double) {
+    private fun fetchWeather(lat: Double, lon: Double, name: String? = null) {
         val units = preferences.getTemperatureUnit()
         val lang = preferences.getLanguage()
         lifecycleScope.launch {
-            val response = repository.getWeather(lat, lon, units, lang)
+            val result = repository.getWeather(lat, lon, units, lang)
             showLoading(false)
-            if (response == null) {
-                showStatus(getString(R.string.status_add_api_key))
+            if (result.data == null) {
+                showStatus(result.error ?: getString(R.string.status_add_api_key))
+                preferences.getCachedWeather()?.let { cached ->
+                    repository.deserialize(cached)?.let { cachedWeather ->
+                        renderWeather(cachedWeather)
+                        showStatus(getString(R.string.status_offline_cache))
+                    }
+                }
             } else {
                 binding.textStatus.visibility = View.GONE
-                renderWeather(response)
+                renderWeather(result.data)
+                preferences.saveLastLocation(lat, lon, name ?: result.data.timezone)
+                preferences.cacheWeather(repository.serialize(result.data))
             }
         }
     }
@@ -206,16 +235,25 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 WeatherFormatter.formatWindSpeed(current.windSpeed, preferences.getWindUnit())
             )
             binding.textHumidity.text = getString(R.string.humidity_format, current.humidity)
-            binding.textPressure.text = getString(R.string.pressure_format, current.pressure)
+            binding.textPressure.text = getString(
+                R.string.pressure_format,
+                WeatherFormatter.formatPressure(current.pressure, preferences.getPressureUnit())
+            )
             binding.textUv.text = getString(R.string.uv_format, current.uvi)
             val pop = weather.hourly.firstOrNull()?.precipitationProbability ?: 0.0
             binding.textPrecipitation.text =
                 getString(R.string.precip_format, WeatherFormatter.formatPrecipitationProbability(pop))
-            binding.textVisibility.text =
-                getString(R.string.visibility_format, WeatherFormatter.formatVisibility(current.visibility))
+            val visibility = WeatherFormatter.formatVisibility(
+                current.visibility,
+                preferences.getVisibilityUnit()
+            )
+            binding.textVisibility.text = getString(R.string.visibility_format, visibility)
+            currentLatLng = currentLatLng ?: LatLng(preferences.getLastLocation().first, preferences.getLastLocation().second)
+            currentLatLng?.let { updateMap(it) }
         }
 
-        hourlyData = weather.hourly.take(72)
+        // One Call 2.5 returns up to 48 hourly entries
+        hourlyData = weather.hourly.take(48)
         hourlyAdapter.submitList(hourlyData.take(12))
         dailyAdapter.submitList(weather.daily.take(7))
     }
@@ -248,6 +286,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun updateMap(latLng: LatLng) {
         googleMap?.let { map ->
             map.uiSettings.isZoomControlsEnabled = true
+            map.uiSettings.isMapToolbarEnabled = false
             map.clear()
             map.addMarker(MarkerOptions().position(latLng).title("Sizning joylashuvingiz"))
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11f))
@@ -256,6 +295,44 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
-        currentLatLng?.let { updateMap(it) }
+        val last = currentLatLng ?: LatLng(preferences.getLastLocation().first, preferences.getLastLocation().second)
+        updateMap(last)
+    }
+
+    private fun openSettings() {
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun showCitySearchDialog() {
+        val input = android.widget.EditText(this)
+        input.hint = "Shahar nomi"
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Shaharni kiriting")
+            .setView(input)
+            .setPositiveButton("Izlash") { _, _ ->
+                val city = input.text.toString()
+                if (city.isNotBlank()) {
+                    val apiKey = com.example.farrux.weatherapp.BuildConfig.OPEN_WEATHER_API_KEY
+                    if (apiKey.isBlank()) {
+                        showStatus(getString(R.string.status_add_api_key))
+                        return@setPositiveButton
+                    }
+                    lifecycleScope.launch {
+                        showLoading(true)
+                        val geo = repository.geocodeCity(city, apiKey.trim())
+                        geo.onSuccess { location ->
+                            currentLatLng = LatLng(location.lat, location.lon)
+                            fetchWeather(location.lat, location.lon, location.name)
+                            updateMap(currentLatLng!!)
+                        }.onFailure {
+                            showStatus(it.localizedMessage ?: "Manzil topilmadi")
+                        }
+                        showLoading(false)
+                    }
+                }
+            }
+            .setNegativeButton("Bekor qilish", null)
+            .show()
     }
 }

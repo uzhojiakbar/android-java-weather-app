@@ -22,6 +22,8 @@ class OnboardingActivity : AppCompatActivity() {
     private var selectedLanguage = "en"
     private var selectedTemperatureUnit = "metric"
     private var selectedWindUnit = "m/s"
+    private var selectedPressureUnit = "hPa"
+    private var selectedVisibilityUnit = "km"
 
     private val permissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -77,6 +79,18 @@ class OnboardingActivity : AppCompatActivity() {
                 else -> "m/s"
             }
         }
+        binding.togglePressure.check(binding.buttonHPa.id)
+        binding.togglePressure.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                selectedPressureUnit = if (checkedId == binding.buttonMmHg.id) "mmHg" else "hPa"
+            }
+        }
+        binding.toggleVisibility.check(binding.buttonKm.id)
+        binding.toggleVisibility.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                selectedVisibilityUnit = if (checkedId == binding.buttonMeter.id) "m" else "km"
+            }
+        }
     }
 
     private fun handleNext() {
@@ -99,6 +113,8 @@ class OnboardingActivity : AppCompatActivity() {
                 preferences.setLanguage(selectedLanguage)
                 preferences.setTemperatureUnit(selectedTemperatureUnit)
                 preferences.setWindUnit(selectedWindUnit)
+                preferences.setPressureUnit(selectedPressureUnit)
+                preferences.setVisibilityUnit(selectedVisibilityUnit)
                 preferences.setOnboardingCompleted(true)
                 setResult(RESULT_OK)
                 finish()
