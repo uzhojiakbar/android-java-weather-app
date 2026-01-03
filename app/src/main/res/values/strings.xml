@@ -1,3 +1,34 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Ob Havo</string>
+    <string name="permission_request">Joylashuv ruxsatini sorash</string>
+    <string name="language_label">Tilni tanlang</string>
+    <string name="temperature_unit_label">Harorat birligi</string>
+    <string name="wind_unit_label">Shamol tezligi birligi</string>
+    <string name="unit_metric">C (Metric)</string>
+    <string name="unit_imperial">F (Imperial)</string>
+    <string name="wind_unit_ms">m/s</string>
+    <string name="wind_unit_kmh">km/h</string>
+    <string name="wind_unit_mph">mph</string>
+    <string name="next">Keyingi</string>
+    <string name="finish">Tayyor</string>
+    <string name="hourly_forecast">Soatlik ob-havo</string>
+    <string name="daily_forecast">Haftalik ob-havo</string>
+    <string name="map_title">Joylashuv xaritasi</string>
+    <string name="see_72_hours">72 soat</string>
+    <string name="hourly_72_title">72 soatlik ob-havo</string>
+    <string name="permission_title">Joylashuv ruxsati</string>
+    <string name="permission_desc">Eng yaqin ob-havoni korsatish uchun joylashuv ruxsatini bering.</string>
+    <string name="language_title">Tilni tanlang</string>
+    <string name="language_desc">Ob-havo malumotlarini qaysi tilda kormoqchisiz?</string>
+    <string name="unit_title">Birliklarni sozlang</string>
+    <string name="unit_desc">Harorat va shamol tezligi birliklarini tanlang.</string>
+    <string name="status_add_api_key">OPEN_WEATHER_API_KEY va MAPS_API_KEY ni local.properties ga qoshish kerak.</string>
+    <string name="feels_like_format">Sezilishi %1$s</string>
+    <string name="pressure_format">Bosim: %1$d hPa</string>
+    <string name="uv_format">UV: %1$.1f</string>
+    <string name="wind_format">Shamol: %1$s</string>
+    <string name="humidity_format">Namlik: %1$d%%</string>
+    <string name="precip_format">Yogingarchilik: %1$s</string>
+    <string name="visibility_format">Kornish: %1$s</string>
+    <string name="location_error">Joylashuvni olishda xatolik</string>
 </resources>

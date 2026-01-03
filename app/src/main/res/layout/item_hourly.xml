@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="140dp"
+    android:layout_height="120dp"
+    android:layout_marginEnd="8dp"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="12dp"
+    app:strokeColor="#E0E0E0"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/textHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#0A1F44"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="14:00" />
+
+        <TextView
+            android:id="@+id/textHourlyTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="#0A1F44"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            tools:text="25°C" />
+
+        <TextView
+            android:id="@+id/textHourlyDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="#123B74"
+            android:textSize="14sp"
+            tools:text="Ochiq" />
+
+        <TextView
+            android:id="@+id/textHourlyWind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="#607D8B"
+            android:textSize="12sp"
+            tools:text="Shamol 3 m/s" />
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

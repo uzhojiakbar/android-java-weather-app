@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="14dp"
+    app:strokeColor="#E0E0E0"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textDetailHour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#0A1F44"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="14:00" />
+
+            <TextView
+                android:id="@+id/textDetailDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#123B74"
+                android:textSize="14sp"
+                tools:text="Bulutli" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textDetailTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#0A1F44"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="26°C" />
+
+            <TextView
+                android:id="@+id/textDetailWind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#607D8B"
+                android:textSize="12sp"
+                tools:text="Shamol 4 m/s" />
+
+            <TextView
+                android:id="@+id/textDetailPressure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#607D8B"
+                android:textSize="12sp"
+                tools:text="Bosim 1011 hPa" />
+        </LinearLayout>
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
