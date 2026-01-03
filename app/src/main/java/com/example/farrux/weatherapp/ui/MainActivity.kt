@@ -21,6 +21,7 @@ import com.example.farrux.weatherapp.model.WeatherResponse
 import com.example.farrux.weatherapp.ui.adapter.DailyForecastAdapter
 import com.example.farrux.weatherapp.ui.adapter.HourlyForecastAdapter
 import com.example.farrux.weatherapp.util.WeatherFormatter
+import com.example.farrux.weatherapp.BuildConfig
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -207,7 +208,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val units = preferences.getTemperatureUnit()
         val lang = preferences.getLanguage()
         lifecycleScope.launch {
-            val result = repository.getWeather(lat, lon, units, lang)
+            val apiKey = preferences.getOpenWeatherKey().ifBlank { BuildConfig.OPEN_WEATHER_API_KEY }
+            val result = repository.getWeather(lat, lon, units, lang, apiKey)
             showLoading(false)
             if (result.data == null) {
                 showStatus(result.error ?: getString(R.string.status_add_api_key))

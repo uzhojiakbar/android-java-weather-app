@@ -36,6 +36,18 @@ class UserPreferences(context: Context) {
 
     fun getVisibilityUnit(): String = prefs.getString(KEY_VISIBILITY_UNIT, "km") ?: "km"
 
+    fun setOpenWeatherKey(key: String) {
+        prefs.edit { putString(KEY_OPEN_WEATHER, key) }
+    }
+
+    fun getOpenWeatherKey(): String = prefs.getString(KEY_OPEN_WEATHER, "") ?: ""
+
+    fun setMapsKey(key: String) {
+        prefs.edit { putString(KEY_MAPS, key) }
+    }
+
+    fun getMapsKey(): String = prefs.getString(KEY_MAPS, "") ?: ""
+
     fun setOnboardingCompleted(completed: Boolean) {
         prefs.edit { putBoolean(KEY_ONBOARDING_DONE, completed) }
     }
@@ -74,5 +86,7 @@ class UserPreferences(context: Context) {
         private const val KEY_LAST_LON = "last_lon"
         private const val KEY_LAST_NAME = "last_name"
         private const val KEY_CACHE = "cache_weather"
+        private const val KEY_OPEN_WEATHER = "open_weather_key"
+        private const val KEY_MAPS = "maps_key"
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.example.farrux.weatherapp.R
+import com.example.farrux.weatherapp.BuildConfig
 import com.example.farrux.weatherapp.data.UserPreferences
 import com.example.farrux.weatherapp.databinding.ActivitySettingsBinding
 
@@ -60,6 +61,12 @@ class SettingsActivity : AppCompatActivity() {
             arrayOf("km", "m"),
             prefs.getVisibilityUnit()
         )
+
+        // Prefill API keys (hide BuildConfig default if present)
+        val openKey = prefs.getOpenWeatherKey().ifBlank { BuildConfig.OPEN_WEATHER_API_KEY }
+        binding.inputOpenWeatherKey.setText(openKey)
+        val mapsKey = prefs.getMapsKey().ifBlank { getString(R.string.google_maps_key) }
+        binding.inputMapsKey.setText(mapsKey)
     }
 
     private fun setupSpinner(
@@ -96,5 +103,7 @@ class SettingsActivity : AppCompatActivity() {
         prefs.setVisibilityUnit(
             visibilityValues[binding.spinnerVisibilitySettings.selectedItemPosition]
         )
+        prefs.setOpenWeatherKey(binding.inputOpenWeatherKey.text?.toString()?.trim().orEmpty())
+        prefs.setMapsKey(binding.inputMapsKey.text?.toString()?.trim().orEmpty())
     }
 }

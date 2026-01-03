@@ -42,15 +42,16 @@ class WeatherRepository {
         latitude: Double,
         longitude: Double,
         units: String,
-        language: String
+        language: String,
+        apiKey: String
     ): WeatherResult = withContext(Dispatchers.IO) {
-        val apiKey = BuildConfig.OPEN_WEATHER_API_KEY.trim()
-        if (apiKey.isBlank()) {
-            return@withContext WeatherResult(null, "API kaliti topilmadi. local.properties ga qo'shing.")
+        val keyToUse = apiKey.ifBlank { BuildConfig.OPEN_WEATHER_API_KEY }.trim()
+        if (keyToUse.isBlank()) {
+            return@withContext WeatherResult(null, "API kaliti topilmadi. Sozlamalarga kiriting.")
         }
         return@withContext try {
-            val current = service.getCurrent(latitude, longitude, units, language, apiKey)
-            val forecast = service.getForecast(latitude, longitude, units, language, apiKey)
+            val current = service.getCurrent(latitude, longitude, units, language, keyToUse)
+            val forecast = service.getForecast(latitude, longitude, units, language, keyToUse)
 
             if (!current.isSuccessful) {
                 val msgBody = current.errorBody()?.string()?.takeIf { it.isNotBlank() } ?: ""

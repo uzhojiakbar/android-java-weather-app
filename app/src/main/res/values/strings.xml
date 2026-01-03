@@ -44,4 +44,8 @@
     <string name="save">Saqlash</string>
     <string name="map_retry">Mapni qayta yuklash</string>
     <string name="map_error">Google Maps yuklashda xato</string>
+    <string name="openweather_key_label">OpenWeather API kaliti</string>
+    <string name="openweather_key_hint">OpenWeather API key</string>
+    <string name="maps_key_label">Google Maps API kaliti</string>
+    <string name="maps_key_hint">Maps API key (SDK)</string>
 </resources>
